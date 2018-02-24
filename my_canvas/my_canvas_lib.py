@@ -26,6 +26,7 @@ class line:
         else:
             return int(x*self.k+self.b) == y and self.x1 <= x and x < self.x2
 
+
 class Canvas:
     def __init__(self, width, height, color):
         self.form_list = []
