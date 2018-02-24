@@ -26,7 +26,9 @@ while continueFlag: # main game loop
         if event.type == QUIT:
             continueFlag = False
             print('pygame exit!')
-            pygame.display.quit()
-            pygame.quit()
+            break
 
     # PAINT THE SCREEN
+
+pygame.display.quit()
+pygame.quit()
