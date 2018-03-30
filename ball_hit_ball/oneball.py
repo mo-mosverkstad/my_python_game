@@ -78,6 +78,7 @@ while continueFlag: # main game loop
         ball_x = ball_x + MOVE_STEP
         ball_x = SCREEN_WIDTH-ball_image_size[0] if ball_x > SCREEN_WIDTH-ball_image_size[0] else ball_x
 
+    #print(pygame.mouse.get_pos())
     # PAINT THE SCREEN
     screen.fill(COLOR_WHITE)
     screen.blit(ball_image,(ball_x,ball_y))
