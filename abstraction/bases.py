@@ -26,7 +26,12 @@ class base_pygame:
         
         screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         pygame.display.set_caption(self.TITLE)
-        
+
+        # PAINT THE SCREEN
+        screen.fill(self.color)
+        self.canvas.draw(screen)
+        pygame.display.update()
+
         # PYGAME DEAD LOOP FOR RECEIVING EVENTS
         while continueFlag: # main game loop
         
@@ -43,10 +48,7 @@ class base_pygame:
                 elif event.type == MOUSEBUTTONDOWN:
                     x,y = event.pos
         
-            # PAINT THE SCREEN
-            screen.fill(self.color)
-            self.canvas.draw(screen)
-            pygame.display.update()
+        # PAINT THE SCREEN
             
         pygame.display.quit()
         pygame.quit()
