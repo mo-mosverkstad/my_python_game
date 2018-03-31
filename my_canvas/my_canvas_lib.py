@@ -9,7 +9,7 @@ class Block:
     def is_in_scope(self, x, y):
         return (x >= self.left and x < self.left + self.width) and (y >= self.top and y < self.top + self.height)
 
-class line:
+class Line:
     def __init__(self, x1, y1, x2, y2, color):
         self.x1 = x1
         self.y1 = y1
@@ -30,14 +30,22 @@ class line:
 class Canvas:
     def __init__(self, width, height, color):
         self.form_list = []
+        self.form_dict = {}
         self.width = int(width)
         self.height = int(height)
         self.color = color
 
-    def add(self, form):
-        self.form_list.insert(0, form)
+    def add(self, form_name, form):
+        self.form_list.append(form)
+        self.form_dict[form_name] = form
         return self
 
+    def delete(self, name):
+        obj = self.form_dict[name]
+        self.form_list.remove(obj)
+        del self.form_dict[name]
+        return self
+    
     def __get_color(self, x, y):
         for b in self.form_list:
             if b.is_in_scope(x, y): return b.color

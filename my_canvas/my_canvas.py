@@ -26,9 +26,10 @@ canvas = Canvas(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, COLOR_GRAY)
 canvas.add(Block(15, 30, 90, 20, COLOR_YELLOW))
 canvas.add(Block(10, 20, 60, 40, COLOR_RED))
 '''
-canvas.add(Block(54, 44, 100, 100, COLOR_YELLOW))
-canvas.add(Block(94, 5, 12, 38, COLOR_RED))
-canvas.add(line(94, 50, 94, 100, COLOR_BLUE))
+canvas.add('Block 1',Block(54, 44, 100, 100, COLOR_YELLOW))
+canvas.add('Block 2',Block(94, 5, 12, 38, COLOR_RED))
+canvas.add('line1',Line(94, 50, 94, 100, COLOR_BLUE))
+canvas.delete('Block 1')
 
 # INIT THE SCREEN
 screen.fill(COLOR_BLACK)
