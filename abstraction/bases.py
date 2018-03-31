@@ -1,9 +1,9 @@
 import pygame, sys
 from pygame.locals import *
-sys.path.insert(0, '../my_canvas/')
+sys.path.append('../my_canvas/')
 from my_canvas_lib import *
 
-class base_pygame:
+class Base_pygame:
     def __init__(self, scTitel, width, height, color):
         self.TITLE = scTitel
         self.SCREEN_WIDTH = width
@@ -19,7 +19,6 @@ class base_pygame:
     def run(self):
         # VARIABLES DEFINITION
         continueFlag = True
-        
         
         # PYGAME INITIALISATION
         pygame.init()

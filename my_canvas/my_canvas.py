@@ -2,23 +2,16 @@
 import pygame, sys
 from pygame.locals import *
 from my_canvas_lib import *
+from my_color import *
 
 # CONSTANTS DEFINITION
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 400
 SCREEN_TITLE = 'MOS PYGAME CODING'
 
-COLOR_BLACK    = (   0,   0,   0)
-COLOR_GRAY     = ( 127, 127, 127)
-COLOR_WHITE    = ( 255, 255, 255)
-COLOR_GREEN    = (   0, 255,   0)
-COLOR_RED      = ( 255,   0,   0)
-COLOR_YELLOW   = ( 255, 255,   0)
-COLOR_OLIVE    = ( 150, 150,   0)
-COLOR_BLUE     = (   0,   0, 255)
-
 # VARIABLES DEFINITION
 continueFlag = True
+canvasFlag = False
 x = 0
 y = 0
 
@@ -37,6 +30,12 @@ canvas.add(Block(54, 44, 100, 100, COLOR_YELLOW))
 canvas.add(Block(94, 5, 12, 38, COLOR_RED))
 canvas.add(line(94, 50, 94, 100, COLOR_BLUE))
 
+# INIT THE SCREEN
+screen.fill(COLOR_BLACK)
+canvas.draw(screen)
+pygame.display.update()
+
+
 # PYGAME DEAD LOOP FOR RECEIVING EVENTS
 while continueFlag: # main game loop
 
@@ -53,9 +52,11 @@ while continueFlag: # main game loop
             y = pos[1]
 
     # PAINT THE SCREEN
-    screen.fill(COLOR_BLACK)
-    canvas.draw(screen)
-    pygame.display.update()
+    if canvasFlag:
+        screen.fill(COLOR_BLACK)
+        canvas.draw(screen)
+        pygame.display.update()
+        canvasFlag = False
 
 pygame.display.quit()
 pygame.quit()

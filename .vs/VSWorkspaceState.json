@@ -1,10 +1,11 @@
 {
   "ExpandedNodes": [
     "",
+    "\\abstraction",
     "\\ball_hit_ball",
     "\\base",
     "\\my_canvas"
   ],
-  "SelectedNode": "\\ball_hit_ball\\oneball.py",
+  "SelectedNode": "\\abstraction\\test.py",
   "PreviewInSolutionExplorer": false
 }
