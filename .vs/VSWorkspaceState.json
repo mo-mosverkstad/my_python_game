@@ -4,8 +4,9 @@
     "\\abstraction",
     "\\ball_hit_ball",
     "\\base",
+    "\\catch_the_mouse",
     "\\my_canvas"
   ],
-  "SelectedNode": "\\abstraction\\test.py",
+  "SelectedNode": "\\catch_the_mouse\\catch_the_mouse.py",
   "PreviewInSolutionExplorer": false
 }
