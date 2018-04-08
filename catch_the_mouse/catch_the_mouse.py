@@ -5,12 +5,13 @@ import sys
 sys.path.append('../my_canvas/')
 from my_color import *
 from my_canvas_lib import *
+from random import randint
 
 # CONSTANTS DEFINITION
 SCREEN_TITLE = 'MOS PYGAME CODING'
 BLOCK_SIZE = 30
 EDGE_SIZE = 4
-BLOCKS = 15
+BLOCKS = 11
 EDGES = 1
 SCREEN_WIDTH = EDGE_SIZE+(BLOCK_SIZE+EDGE_SIZE)*BLOCKS
 SCREEN_HEIGHT = EDGE_SIZE+(BLOCK_SIZE+EDGE_SIZE)*BLOCKS
@@ -19,10 +20,14 @@ CELL_EDGE = -1
 CELL_GROUND = 0
 CELL_BLOCK = 1
 SEGMENT = EDGE_SIZE + BLOCK_SIZE
+CONTINUEGAME = 20
+FAILGAME = 30
+WINGAME = 40
 
 # VARIABLES DEFINITION
 continueFlag = True
 refresh = False
+mouse_x, mouse_y = (EDGE_SIZE + SEGMENT*5, EDGE_SIZE + SEGMENT*8)
 
 
 # PYGAME INITIALISATION
@@ -35,16 +40,18 @@ mouse_img.set_colorkey(COLOR_WHITE, RLEACCEL)
 mouse_img_size = mouse_img.get_rect().size
 
 def drawer(longlist):
-    for item in longlist:
-        cell_pos, cell_status = item
-        if cell_status == CELL_GROUND: cell_color = COLOR_LIGHTGREEN
-        elif cell_status == CELL_BLOCK: cell_color = COLOR_GRAY
-        elif cell_status == CELL_EDGE: cell_color = COLOR_YELLOW
-        pygame.draw.rect(screen, cell_color, cell_pos)
+    for y_item in longlist:
+        for x_item in y_item:
+            cell_pos, cell_status = x_item
+            if cell_status == CELL_GROUND: cell_color = COLOR_LIGHTGREEN
+            elif cell_status == CELL_BLOCK: cell_color = COLOR_GRAY
+            elif cell_status == CELL_EDGE: cell_color = COLOR_YELLOW
+            pygame.draw.rect(screen, cell_color, cell_pos)
 
 def gen_data_list():
     data_list = []
     for y_index in range(BLOCKS):
+        data_list.append([])
         for x_index in range(BLOCKS):
             x = EDGE_SIZE + SEGMENT*x_index
             y = EDGE_SIZE + SEGMENT*y_index
@@ -53,24 +60,27 @@ def gen_data_list():
             else:
                 cell_status = CELL_GROUND
 
-            data_list.append(([x,y,BLOCK_SIZE,BLOCK_SIZE], cell_status))
+            data_list[-1].append(([x,y,BLOCK_SIZE,BLOCK_SIZE], cell_status))
     return data_list
 
 
 def sensor(longlist, x, y):
     x_index = int(x / (EDGE_SIZE + BLOCK_SIZE))
     y_index = int(y / (EDGE_SIZE + BLOCK_SIZE))
-    cell_pos, cell_status = longlist[y_index * BLOCKS + x_index]
+    cell_pos, cell_status = longlist[y_index][x_index]
     if cell_status == CELL_GROUND:
-        longlist[y_index * BLOCKS + x_index] = (cell_pos, CELL_BLOCK)
+        longlist[y_index][x_index] = (cell_pos, CELL_BLOCK)
         return True
     else:
         return False
 
+            
+
 
 data_list = gen_data_list()
+print(data_list)
 drawer(data_list)
-screen.blit(mouse_img,(EDGE_SIZE,EDGE_SIZE))
+screen.blit(mouse_img,(mouse_x,mouse_y))
 pygame.display.update()
 
 # PYGAME DEAD LOOP FOR RECEIVING EVENTS
