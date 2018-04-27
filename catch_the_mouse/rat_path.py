@@ -109,20 +109,6 @@ def mouse_opt_path(map, mouse_pos):
 
     solution_path = list()
     mouse_step(map_track, all_path_stack, solution_path)
-    
-    return [path for step, path in sort_path(solution_path)[0]]
-    
-    
-map = [[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-       [-1,  0,  0,  0,  0,  0,  0,  0,  0, -1],
-       [-1,  0,  0,  0,  1,  0,  1,  1,  1, -1],
-       [-1,  0,  1,  0,  0,  0,  0,  0,  1, -1],
-       [-1,  0,  0,  1,  0,  0,  0,  0,  1, -1],
-       [-1,  0,  0,  0,  0,  0,  0,  0,  1, -1],
-       [-1,  0,  0,  0,  0,  1,  1,  1,  1, -1],
-       [-1,  0,  0,  0,  0,  0,  0,  0,  0, -1],
-       [-1,  0,  0,  0,  0,  0,  0,  0,  0, -1],
-       [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-       ]
+    if len(solution_path) <= 0: return []
+    else: return [path for step, path in sort_path(solution_path)[0]]
 
-print(mouse_opt_path(map, (7, 5)))
