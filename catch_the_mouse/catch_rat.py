@@ -47,6 +47,11 @@ rat_pos_index, map_list = rat_map_dict["#0001"]
 
 # PYGAME INITIALISATION
 pygame.init()
+pygame.font.init() # you have to call this at the start, 
+                   # if you want to use this module.
+font_comicSans = pygame.font.SysFont('Comic Sans MS', 30)
+text_you_win   = font_comicSans.render('YOU WIN!!!', False, COLOR_RED)
+text_you_fail  = font_comicSans.render('YOU FAIL!!', False, COLOR_RED)
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption(SCREEN_TITLE)
@@ -72,15 +77,21 @@ def draw_map(map_list):
                              CELL_COLOR_DICT[cell_status],
                              gen_pos_by_index(x_index, y_index))
 
-def draw_screen(map_list, rat_pos_index):
+def draw_screen(map_list, rat_pos_index, game_status):
     draw_map(map_list)
     rat_x_index, rat_y_index = rat_pos_index
     screen.blit(rat_img, gen_pos_by_index(rat_x_index, rat_y_index))
+    if game_status == GAME_WIN:
+        screen.blit(text_you_win, (0,0))
+    if game_status == GAME_FAIL:
+        screen.blit(text_you_fail,(0,0))
     pygame.display.update()
 
 
 
-draw_screen(map_list, rat_pos_index)
+game_status = GAME_CONTINUE
+draw_screen(map_list, rat_pos_index, game_status)
+
 # PYGAME DEAD LOOP FOR RECEIVING EVENTS
 while continueFlag: # main game loop
 
@@ -91,29 +102,36 @@ while continueFlag: # main game loop
             print('pygame exit!')
             break
         elif event.type == MOUSEBUTTONDOWN:
+            if game_status != GAME_CONTINUE: continue
+
             x,y = event.pos
             x_index, y_index = gen_index_by_pos(x, y)
             rat_x_index, rat_y_index = rat_pos_index
             if (map_list[y_index][x_index] == CELL_GROUND):
                 map_list[y_index][x_index] = CELL_BLOCK
                 rat_path = mouse_opt_path(map_list, rat_pos_index)
-                if len(rat_path) > 0:
+                if len(rat_path) > 1:
                     map_list[rat_y_index][rat_x_index] = CELL_GROUND
                     instruction_x, instruction_y = rat_path[1]
                     map_list[instruction_y][instruction_x] = CELL_RAT
                     rat_pos_index = (instruction_x, instruction_y)
                     print('Rat path is ' + str(rat_path))
                     print('The map is ' + str(map_list))
-                else:
+                    game_status = GAME_CONTINUE
+                elif len(rat_path) == 1:
+                    print("rat win!")
+                    game_status = GAME_FAIL
+                elif len(rat_path) == 0:
                     print("you win!")
+                    game_status = GAME_WIN
                 refresh = True
             
 
     # PAINT THE SCREEN
     if refresh:
-        draw_screen(map_list, rat_pos_index)
+        draw_screen(map_list, rat_pos_index, game_status)
         refresh = False
-
+        
 
     
 
