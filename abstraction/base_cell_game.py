@@ -1,75 +1,72 @@
 #!/usr/bin/env python
-import pygame
+import pygame, sys
 from pygame.locals import *
 
-import sys
 from general_color import *
-from general_game_config import Game_status
+from general_cell_config import Cell_map
+from general_game_config import Game_status, Game_text
 
 class Base_cell_game:
-    def __init__(self, scTitle, blocksize, edgesize, w_cells, h_cells, cell_dict, images, map_list):
-        # CONSTANTS DEFINITION
-        self.TITLE              = scTitle
+    def __init__(self, title, cell_map):
+        self.screen_title = title
+        self.continueFlag = True
+        self.refresh = bool() # default value is False
+        self.cell_map = cell_map
+        self.screen_width, self.screen_height = self.cell_map.get_screen_size()
+        self.game_status = Game_status()
 
-        # CONFIGURATION OF SIZE
-        self.IMAGES             = images
+        self.screen, self.text_you_win, self.text_you_fail = self.__pygame_init()
+        self.__draw_screen()
 
-        # CONFIGURATION OF CELL STATUS
-        self.CELLDICT           = cell_dict
-
-        # CONFIGURATION OF GAME STATUS
-        self.GAME_STATUS        = Game_status()
-
-        # CONFIGURATIONS OF OTHER STUFFS
-        self.MAP_LIST = map_list
-
-    def font_writeout(self, display, text, color, textsize, dest):
-        font = pygame.font.SysFont('Comic Sans MS', textsize)
-        text = font.render(text, False, color)
-        display.blit(text, dest)
-
-    def img_load(self, images):
-        img = []
-        for item in images:
-            img.append(pygame.image.load(item))
-        return img_load
-
-    def pos(self, pos_index):
-        x = EDGE_SIZE + SEGMENT_SIZE * pos_index[0]
-        y = EDGE_SIZE + SEGMENT_SIZE * pos_index[1]
-        return (x, y)
-
-    def index(self, position):
-        x_index = int((position[0]-EDGE_SIZE)/SEGMENT_SIZE)
-        y_index = int((position[1]-EDGE_SIZE)/SEGMENT_SIZE)
-        return (x_index, y_index)
-
-    def draw_map(self):
-        for x_index in range(len(self.MAP_LIST[y_index])):
-            cell_status = self.MAP_LIST[y_index][x_index]
-            pygame.draw.rect(screen,
-                             CELL_COLOR_DICT[cell_status],
-                             self.pos(x_index, y_index), self.CELLSIZE, self.CELLSIZE)
-
-
-    def run(self, game_status_pos):
-        # VARIABLES DEFINITION
-        continueFlag = True
-        refresh = False
-
+    def __pygame_init(self):
         # PYGAME INITIALISATION
         pygame.init()
         pygame.font.init()
+        
+        screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        pygame.display.set_caption(self.screen_title)
+        
+        font_comicSans = pygame.font.SysFont('Comic Sans MS', 30)
+        text_you_win   = Game_text(screen, font_comicSans, "YOU WIN !!!", COLOR_RED, (0, 0))
+        text_you_fail  = Game_text(screen, font_comicSans, "YOU FAIL!!!", COLOR_RED, (0, 0))
+        
+        return screen, text_you_win, text_you_fail
 
-        # PYGAME INITIALISATION
-        pygame.init()
-        pygame.font.init()
+    def __draw_map(self):
+        for row in self.cell_map.get_map_list():
+            for item in row:
+                pygame.draw.rect(self.screen, item.get_color(), item.get_pos())
 
-        # PYGAME BEGINNING
-        screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
-        pygame.display.set_caption(self.TITLE)
+    def __draw_screen(self):
+        self.__draw_map()
+        if   self.game_status.get_status() == Game_status.GAME_WIN:  self.text_you_win.draw()
+        elif self.game_status.get_status() == Game_status.GAME_FAIL: self.text_you_fail.draw()
+        pygame.display.update()
 
-        # LOADING THESE IMAGES
-        self.img_load(self.IMAGES)
+    ### customerized game code -- begin
+    def on_mouse_down(self, map, pos, game_status):
+        return False
+    ### customerized game code -- end
 
-        game_status.set_status(Game_status.GAME_CONTINUE)
+
+    def run(self):
+        # PYGAME DEAD LOOP FOR RECEIVING EVENTS
+        while self.continueFlag: # main game loop
+        
+            # EVENTS HANDLING
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    self.continueFlag = False
+                    print('pygame exit!')
+                    break
+                elif event.type == MOUSEBUTTONDOWN:
+                    if self.game_status.get_status() != Game_status.GAME_CONTINUE: continue
+                    self.refresh = self.on_mouse_down(self.cell_map, event.pos, self.game_status)
+        
+            # PAINT THE SCREEN
+            if self.refresh:
+                self.__draw_screen()
+                self.refresh = False
+        
+        pygame.display.quit()
+        pygame.quit()
