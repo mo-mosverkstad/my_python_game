@@ -11,9 +11,9 @@ class Simple_cell_game (Base_cell_game):
     CELL_BLOCK  = 1
     CELL_RAT    = 2
     CELL_COLOR_DICT = {CELL_GROUND : COLOR_LIGHTGREEN,
-                       CELL_BLOCK  : COLOR_GRAY,
+                       CELL_BLOCK  : Image_item('image_block.png'),
                        CELL_EDGE   : COLOR_YELLOW,
-                       CELL_RAT    : Image_item('mouse.png')}
+                       CELL_RAT    : Image_item('image_mouse.png')}
 
     def __init__(self, map):
         cell_map = Cell_map(30, 4, map, self.CELL_COLOR_DICT)
