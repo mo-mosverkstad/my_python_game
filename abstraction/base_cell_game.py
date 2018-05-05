@@ -2,9 +2,10 @@
 import pygame, sys
 from pygame.locals import *
 
-from general_color import *
+from general_color_config import *
 from general_cell_config import Cell_map
 from general_game_config import Game_status, Game_text
+from general_image_config import Image_item
 
 class Base_cell_game:
     def __init__(self, title, cell_map):
@@ -35,7 +36,13 @@ class Base_cell_game:
     def __draw_map(self):
         for row in self.cell_map.get_map_list():
             for item in row:
-                pygame.draw.rect(self.screen, item.get_color(), item.get_pos())
+                color = item.get_color()
+                if isinstance(color, tuple):
+                    # if tuple, it should be color
+                    pygame.draw.rect(self.screen, color, item.get_pos())
+                else:
+                    # else it should be image_item object
+                    self.screen.blit(color.get_image(), item.get_pos())
 
     def __draw_screen(self):
         self.__draw_map()
