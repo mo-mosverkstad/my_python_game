@@ -13,9 +13,9 @@ class rat_game(Base_cell_game):
     CELL_BLOCK  = 1
     CELL_RAT    = 2
     CELL_COLOR_DICT = {CELL_GROUND : COLOR_LIGHTGREEN,
-                       CELL_BLOCK  : Image_item('image_block.png'),
+                       CELL_BLOCK  : Image_item('res\image_block.png'),
                        CELL_EDGE   : COLOR_YELLOW,
-                       CELL_RAT    : Image_item('image_mouse.png')}
+                       CELL_RAT    : Image_item('res\image_mouse.png')}
     def __init__(self, rat_map_dict):
         self.rat_pos_index, self.map = rat_map_dict["#0001"]
         self.cell_map = Cell_map(30, 4, self.map, self.CELL_COLOR_DICT)
