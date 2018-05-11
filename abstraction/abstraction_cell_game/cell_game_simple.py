@@ -1,9 +1,9 @@
-from base_cell_game import Base_cell_game
+from lib.base_cell_game import Base_cell_game
 
-from general_color_config import *
-from general_cell_config import Cell_map
-from general_game_config import Game_status
-from general_image_config import Image_item
+from lib.general_color_config import *
+from lib.general_cell_config import Cell_map
+from lib.general_game_config import Game_status
+from lib.general_image_config import Image_item
 
 class Simple_cell_game (Base_cell_game):
     CELL_EDGE   = -1
@@ -11,9 +11,9 @@ class Simple_cell_game (Base_cell_game):
     CELL_BLOCK  = 1
     CELL_RAT    = 2
     CELL_COLOR_DICT = {CELL_GROUND : COLOR_LIGHTGREEN,
-                       CELL_BLOCK  : Image_item('image_block.png'),
+                       CELL_BLOCK  : Image_item('res\image_block.png'),
                        CELL_EDGE   : COLOR_YELLOW,
-                       CELL_RAT    : Image_item('image_mouse.png')}
+                       CELL_RAT    : Image_item('res\image_mouse.png')}
 
     def __init__(self, map):
         cell_map = Cell_map(30, 4, map, self.CELL_COLOR_DICT)

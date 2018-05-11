@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import pygame
 from pygame.locals import *
-from general_color_config import *
+from lib.general_color_config import *
 
 class Image_item:
     def __init__(self, image_file_name):

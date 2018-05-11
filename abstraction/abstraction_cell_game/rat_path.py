@@ -96,8 +96,17 @@ def mouse_step(map_track, all_path_stack, solution_path):
             mouse_step_next(map_track, all_path_stack, solution_path, copy.deepcopy(path), STEP_DOWN)
             mouse_step_next(map_track, all_path_stack, solution_path, copy.deepcopy(path), STEP_LEFT)
 
+def generate_map(map):
+    map_track = list()
+    for row in map:
+        new_row = list()
+        for item in row:
+            new_row.append(item.get_status())
+        map_track.append(new_row)
+    return map_track
+
 def mouse_opt_path(map, mouse_pos):
-    map_track = copy.deepcopy(map)
+    map_track = generate_map(map)
     map_mouse_track(map_track, mouse_pos)
     MAX_STEPS = len(map_track) + len(map_track[0])
 

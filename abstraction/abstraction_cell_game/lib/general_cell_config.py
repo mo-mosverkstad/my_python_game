@@ -39,15 +39,15 @@ class Cell_map:
 
     def get_screen_size(self): return self.SCREEN_WIDTH, self.SCREEN_HEIGHT
 
+    def get_index(self, x, y): return self.__gen_index_by_pos(x, y)
+
     def __gen_index_by_pos(self, x, y):
         x_index = int((x - self.EDGE_SIZE) / self.SEGMENT_SIZE)
         y_index = int((y - self.EDGE_SIZE) / self.SEGMENT_SIZE)
         return x_index, y_index
 
     def set_cell_status(self, x, y, status):
-        x_index, y_index = self.__gen_index_by_pos(x, y)
-        self.map_list[y_index][x_index].set_status(status)
+        self.map_list[y][x].set_status(status)
 
     def get_cell_status(self, x, y):
-        x_index, y_index = self.__gen_index_by_pos(x, y)
-        return self.map_list[y_index][x_index].get_status()
+        return self.map_list[y][x].get_status()

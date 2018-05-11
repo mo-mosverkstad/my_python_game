@@ -2,10 +2,10 @@
 import pygame, sys
 from pygame.locals import *
 
-from general_color_config import *
-from general_cell_config import Cell_map
-from general_game_config import Game_status, Game_text
-from general_image_config import Image_item
+from lib.general_color_config import *
+from lib.general_cell_config import Cell_map
+from lib.general_game_config import Game_status, Game_text
+from lib.general_image_config import Image_item
 
 class Base_cell_game:
     def __init__(self, title, cell_map):
@@ -68,7 +68,9 @@ class Base_cell_game:
                     break
                 elif event.type == MOUSEBUTTONDOWN:
                     if self.game_status.get_status() != Game_status.GAME_CONTINUE: continue
-                    self.refresh = self.on_mouse_down(self.cell_map, event.pos, self.game_status)
+                    x, y = event.pos
+                    x_index, y_index = self.cell_map.get_index(x, y)
+                    self.refresh = self.on_mouse_down(self.cell_map, (x_index, y_index), self.game_status)
         
             # PAINT THE SCREEN
             if self.refresh:
