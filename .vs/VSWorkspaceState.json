@@ -2,12 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\abstraction",
+    "\\abstraction\\abstraction_cell_game",
+    "\\abstraction\\abstraction_cell_game\\lib",
+    "\\abstraction\\abstraction_shell_game",
     "\\ball_hit_ball",
     "\\base",
     "\\catch_the_mouse",
-    "\\my_canvas",
-    "\\temp"
+    "\\escape the office",
+    "\\my_canvas"
   ],
-  "SelectedNode": "\\abstraction\\general_cell_config.py",
+  "SelectedNode": "\\escape the office\\escape_the_office.py",
   "PreviewInSolutionExplorer": false
 }
